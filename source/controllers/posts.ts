@@ -1,59 +1,84 @@
 import { Request, Response, NextFunction } from 'express';
 import axios, { AxiosResponse } from 'axios';
+import propostaAirpress from '../models/propostaAirpress';
 
-interface Post {
-    userId: Number;
-    id: Number;
-    title: String;
-    body: String;
+
+interface Proposta {
+    id: string;
+    cliente: string;
+    cnpj: string;
+    tel: string;
+    endereco: string;
+    ac: string;
+    email: string;
+    titulo: string;
+    descricao: string;
+    pagamento: string;
+    prazo: string;
+    total: string;
+    equipamentos: [
+        {
+            fabricante: string;
+            modelo: string;
+            caracteristicas: string;
+        }
+    ]
+    itens: [
+        {
+            descricao: string;
+            qtd: number;
+            valorUnitario: number;
+            valorTotal: number;
+        }
+    ]
 }
 
-// getting all posts
-const getPosts = async (req: Request, res: Response, next: NextFunction) => {
-    // get some posts
-    let result: AxiosResponse = await axios.get(`https://jsonplaceholder.typicode.com/posts`);
-    let posts: [Post] = result.data;
+
+// RETORNAR DAQUI!
+const getAllPropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
+    let result: Array<Proposta> = await propostaAirpress.find();
+
+    let propostas: Array<Proposta> = result;
     return res.status(200).json({
-        message: posts
+        message: propostas
     });
 };
 
 // getting a single post
-const getPost = async (req: Request, res: Response, next: NextFunction) => {
+const getPropostaAirPressById = async (req: Request, res: Response, next: NextFunction) => {
     // get the post id from the req
     let id: string = req.params.id;
     // get the post
-    let result: AxiosResponse = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`);
-    let post: Post = result.data;
+    let result: Proposta | null = await propostaAirpress.findById(id);
+    let proposta: Proposta | null = result;
     return res.status(200).json({
-        message: post
+        message: proposta
     });
 };
 
 // updating a post
-const updatePost = async (req: Request, res: Response, next: NextFunction) => {
+const updatePropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
     // get the post id from the req.params
     let id: string = req.params.id;
     // get the data from req.body
-    let title: string = req.body.title ?? null;
-    let body: string = req.body.body ?? null;
+    let content: string = req.body ?? null;
+
     // update the post
-    let response: AxiosResponse = await axios.put(`https://jsonplaceholder.typicode.com/posts/${id}`, {
-        ...(title && { title }),
-        ...(body && { body })
+    let response: Proposta | null = await propostaAirpress.findByIdAndUpdate(id, {
+        ...(content && { content })
     });
     // return response
     return res.status(200).json({
-        message: response.data
+        message: response
     });
 };
 
 // deleting a post
-const deletePost = async (req: Request, res: Response, next: NextFunction) => {
+const deletePropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
     // get the post id from req.params
     let id: string = req.params.id;
     // delete the post
-    let response: AxiosResponse = await axios.delete(`https://jsonplaceholder.typicode.com/posts/${id}`);
+    let response: Proposta | null = await propostaAirpress.findByIdAndDelete(id)
     // return response
     return res.status(200).json({
         message: 'post deleted successfully'
@@ -61,19 +86,15 @@ const deletePost = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 // adding a post
-const addPost = async (req: Request, res: Response, next: NextFunction) => {
+const addPropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
     // get the data from req.body
-    let title: string = req.body.title;
-    let body: string = req.body.body;
+    // let title: string = req.body.title;    
     // add the post
-    let response: AxiosResponse = await axios.post(`https://jsonplaceholder.typicode.com/posts`, {
-        title,
-        body
-    });
+    new propostaAirpress(req.body).save();
     // return response
     return res.status(200).json({
-        message: response.data
+        message: "Salvo com sucesso"
     });
-};
+}
 
-export default { getPosts, getPost, updatePost, deletePost, addPost };
+export default { getAllPropostaAirpress, getPropostaAirPressById, updatePropostaAirpress, deletePropostaAirpress, addPropostaAirpress };
