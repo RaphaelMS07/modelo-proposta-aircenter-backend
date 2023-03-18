@@ -62,10 +62,11 @@ const propostaAirpressSchema = new mongoose.Schema<Proposta>({
             }],
         itens: [
             {
-                descricao: { type: String, require: true },
-                qtd: { type: Number, require: true },
-                valorUnitario: { type: Number, requere: true },
-                valorTotal: { type: Number, require: true }
+                // descricao: { type: String, require: true },
+                // qtd: { type: Number, require: true },
+                // valorUnitario: { type: Number, requere: true },
+                // valorTotal: { type: Number, require: true }
+                item: {type: mongoose.Schema.Types.ObjectId, ref: "item"}
             }
         ]
     });
