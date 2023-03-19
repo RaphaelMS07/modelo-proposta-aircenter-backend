@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
-
+interface Counter {
+    id: string,
+    seq: number
+}
 interface Proposta {
     id: string;
     cliente: string;
@@ -13,6 +16,7 @@ interface Proposta {
     pagamento: string;
     prazo: string;
     total: string;
+    paId: number,
     equipamentos: [
         {
             fabricante: string;
@@ -29,6 +33,13 @@ interface Proposta {
         }
     ]
 }
+const airpressCounterSchema = new mongoose.Schema<Counter>({
+    id : {type: String},
+    seq : {type: Number}
+})
+
+var airpressCounter = mongoose.model('airpressCounter', airpressCounterSchema);
+
 const propostaAirpressSchema = new mongoose.Schema<Proposta>({
         id: { type: String },
         cliente: { type: String, require: true },
@@ -42,6 +53,7 @@ const propostaAirpressSchema = new mongoose.Schema<Proposta>({
         pagamento: { type: String, require: true },
         prazo: { type: String, require: true },
         total: { type: String, require: true },
+        paId: {type: Number},
         equipamentos: [
             {
                 fabricante: { type: String, require: true },
@@ -50,14 +62,24 @@ const propostaAirpressSchema = new mongoose.Schema<Proposta>({
             }],
         itens: [
             {
-                descricao: { type: String, require: true },
-                qtd: { type: Number, require: true },
-                valorUnitario: { type: Number, requere: true },
-                valorTotal: { type: Number, require: true }
+                // descricao: { type: String, require: true },
+                // qtd: { type: Number, require: true },
+                // valorUnitario: { type: Number, requere: true },
+                // valorTotal: { type: Number, require: true }
+                item: {type: mongoose.Schema.Types.ObjectId, ref: "item"}
             }
         ]
     });
 
+propostaAirpressSchema.pre('save', function(next){
+    var doc = this;
+    airpressCounter.findByIdAndUpdate({id : "entityId"}, {$inc: {seq: 1}}, function(error : Error, counter: Counter) {
+        if(error){
+            return next(error)
+        } doc.paId = counter.seq;
+        next();
+    })
+})
 const propostaAirpress = mongoose.model("propostaAirpress", propostaAirpressSchema);
 
 export default propostaAirpress;
