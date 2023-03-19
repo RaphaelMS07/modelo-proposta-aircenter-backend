@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-
-
 interface Proposta {
     id: string;
     cliente: string;

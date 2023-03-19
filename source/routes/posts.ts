@@ -3,9 +3,9 @@ import controller from '../controllers/posts';
 const router = express.Router();
 
 router.get('/propostas-airpress', controller.getAllPropostaAirpress);
-// router.get('/posts/:id', controller.getPost);
-// router.put('/posts/:id', controller.updatePost);
-// router.delete('/posts/:id', controller.deletePost);
-// router.post('/posts', controller.addPost);
+router.get('/propostas-airpress/:id', controller.getPropostaAirPressById);
+router.put('/propostas-airpress-update/:id', controller.updatePropostaAirpress);
+router.delete('/propostas-airpress-delete/:id', controller.deletePropostaAirpress);
+router.post('/propostas-airpress-save', controller.addPropostaAirpress);
 
 export = router;
