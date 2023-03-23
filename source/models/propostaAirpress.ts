@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 interface Counter {
-    _id: string,
-    id: string,
     seq: number
 }
 
@@ -39,9 +37,7 @@ interface Proposta {
     ]
 }
 const airpressCounterSchema = new mongoose.Schema<Counter>({
-    _id: { type: String, required: true},
-    id: {type: String, default: "entityId"},
-    seq: { type: Number, default: 0 }
+    seq: { type: Number }
 })
 
 var airpressCounter = mongoose.model('airpressCounter', airpressCounterSchema);
@@ -82,7 +78,7 @@ propostaAirpressSchema.pre<Proposta>('save', async function (next) {
     var doc = this;
     try {
         const counter = await airpressCounter.findByIdAndUpdate(
-            {_id: "entityId"},
+             "641c70e2622e8b36f4fa68bf",
             { $inc: { seq: 1 } },
             { new: true }
         )
@@ -98,4 +94,4 @@ propostaAirpressSchema.pre<Proposta>('save', async function (next) {
 })
 const propostaAirpress = mongoose.model("propostaAirpress", propostaAirpressSchema);
 
-export default propostaAirpress;
+export default {propostaAirpress, airpressCounter};

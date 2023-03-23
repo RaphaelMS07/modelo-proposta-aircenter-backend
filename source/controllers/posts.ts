@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import axios, { AxiosResponse } from 'axios';
-import propostaAirpress from '../models/propostaAirpress';
+import models from '../models/propostaAirpress';
 
 
 interface Proposta {
@@ -35,7 +35,7 @@ interface Proposta {
 
 
 const getAllPropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
-    let result: Array<Proposta> = await propostaAirpress.find();
+    let result: Array<Proposta> = await models.propostaAirpress.find();
 
     let propostas: Array<Proposta> = result;
     return res.status(200).json({
@@ -48,7 +48,7 @@ const getPropostaAirPressById = async (req: Request, res: Response, next: NextFu
     // get the post id from the req
     let id: string = req.params.id;
     // get the post
-    let result: Proposta | null = await propostaAirpress.findById(id);
+    let result: Proposta | null = await models.propostaAirpress.findById(id);
     let proposta: Proposta | null = result;
     return res.status(200).json({
         message: proposta
@@ -63,7 +63,7 @@ const updatePropostaAirpress = async (req: Request, res: Response, next: NextFun
     let content: string = req.body ?? null;
 
     // update the post
-    let response: Proposta | null = await propostaAirpress.findByIdAndUpdate(id, {
+    let response: Proposta | null = await models.propostaAirpress.findByIdAndUpdate(id, {
         ...(content && { content })
     });
     // return response
@@ -77,7 +77,7 @@ const deletePropostaAirpress = async (req: Request, res: Response, next: NextFun
     // get the post id from req.params
     let id: string = req.params.id;
     // delete the post
-    let response: Proposta | null = await propostaAirpress.findByIdAndDelete(id)
+    let response: Proposta | null = await models.propostaAirpress.findByIdAndDelete(id)
     // return response
     return res.status(200).json({
         message: 'post deleted successfully'
@@ -89,11 +89,18 @@ const addPropostaAirpress = async (req: Request, res: Response, next: NextFuncti
     // get the data from req.body
     // let title: string = req.body.title;    
     // add the post
-    new propostaAirpress(req.body).save();
+    new models.propostaAirpress(req.body).save();
     // return response
     return res.status(200).json({
         message: "Salvo com sucesso"
     });
 }
 
-export default { getAllPropostaAirpress, getPropostaAirPressById, updatePropostaAirpress, deletePropostaAirpress, addPropostaAirpress };
+const saveCounter = async (req : Request, res: Response, next: NextFunction) => {
+    new models.airpressCounter(req.body).save();
+    return res.status(200).json({
+        messege: "Contador salvo com sucesso!"
+    })
+}
+
+export default { getAllPropostaAirpress, getPropostaAirPressById, updatePropostaAirpress, deletePropostaAirpress, addPropostaAirpress, saveCounter };
