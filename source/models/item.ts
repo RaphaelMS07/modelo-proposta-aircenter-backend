@@ -22,4 +22,4 @@ const itemSchema = new mongoose.Schema<Item>({
 
 const item = mongoose.model("item", itemSchema);
 
-export default item;
+export default {item};

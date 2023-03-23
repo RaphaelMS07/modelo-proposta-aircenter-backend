@@ -34,7 +34,6 @@ interface Proposta {
 }
 
 
-// RETORNAR DAQUI!
 const getAllPropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
     let result: Array<Proposta> = await propostaAirpress.find();
 
