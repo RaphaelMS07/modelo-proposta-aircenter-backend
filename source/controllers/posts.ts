@@ -92,6 +92,7 @@ const addPropostaAirpress = async (req: Request, res: Response, next: NextFuncti
     new models.propostaAirpress(req.body).save();
     // return response
     return res.status(200).json({
+        // id: this._id,
         message: "Salvo com sucesso"
     });
 }
