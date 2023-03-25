@@ -3,6 +3,8 @@ import express, { Express } from 'express';
 import morgan from 'morgan';
 import routes from './routes/posts';
 import db from './connectDb';
+import cors from 'cors';
+
 
 db.on("error", console.log.bind(console, "Erro de conexao"));
 db.once("open", () => {
@@ -17,20 +19,22 @@ router.use(morgan('dev'));
 router.use(express.urlencoded({ extended: false }));
 /** Takes care of JSON data */
 router.use(express.json());
+// router.use(cors)
+router.use(cors())
 
 /** RULES OF OUR API */
-router.use((req, res, next) => {
-    // set the CORS policy
-    res.header('Access-Control-Allow-Origin', '*');
-    // set the CORS headers
-    res.header('Access-Control-Allow-Headers', 'origin, X-Requested-With,Content-Type,Accept, Authorization');
-    // set the CORS method headers
-    if (req.method === 'OPTIONS') {
-        res.header('Access-Control-Allow-Methods', 'GET PATCH DELETE POST');
-        return res.status(200).json({});
-    }
-    next();
-});
+// router.use((req, res, next) => {
+//     // set the CORS policy
+//     res.header('Access-Control-Allow-Origin', '*');
+//     // set the CORS headers
+//     res.header('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin, X-Requested-With,Content-Type,Accept, Authorization');
+//     // set the CORS method headers
+//     // if (req.method === 'OPTIONS') {
+//         res.header('Access-Control-Allow-Methods', "GET,HEAD,OPTIONS,POST,PUT, DELETE");
+//         return res.status(200).json({});
+//     // }
+//     next();
+// });
 
 /** Routes */
 router.use('/', routes);
