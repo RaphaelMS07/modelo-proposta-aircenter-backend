@@ -89,12 +89,12 @@ const addPropostaAirpress = async (req: Request, res: Response, next: NextFuncti
     // get the data from req.body
     // let title: string = req.body.title;    
     // add the post
-    new models.propostaAirpress(req.body).save();
+     
+     const propostaSalva = await new models.propostaAirpress(req.body).save();
     // return response
-    return res.status(200).json({
-        // id: this._id,
-        message: "Salvo com sucesso"
-    });
+    return res.status(201).json(
+        propostaSalva._id
+    );
 }
 
 const saveCounter = async (req : Request, res: Response, next: NextFunction) => {
