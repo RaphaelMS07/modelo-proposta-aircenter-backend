@@ -16,6 +16,7 @@ interface Proposta {
     pagamento: string;
     prazo: string;
     total: string;
+    data: string;
     equipamentos: [
         {
             fabricante: string;
@@ -38,9 +39,7 @@ const getAllPropostaAirpress = async (req: Request, res: Response, next: NextFun
     let result: Array<Proposta> = await models.propostaAirpress.find();
 
     let propostas: Array<Proposta> = result;
-    return res.status(200).json({
-        message: propostas
-    });
+    return res.status(200).send(propostas)
 };
 
 // getting a single post
@@ -50,9 +49,7 @@ const getPropostaAirPressById = async (req: Request, res: Response, next: NextFu
     // get the post
     let result: Proposta | null = await models.propostaAirpress.findById(id);
     let proposta: Proposta | null = result;
-    return res.status(200).json({
-        message: proposta
-    });
+    return res.status(200).send(proposta);
 };
 
 // updating a post

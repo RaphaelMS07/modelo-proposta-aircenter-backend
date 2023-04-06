@@ -19,6 +19,7 @@ interface Proposta {
     prazo: string;
     total: string;
     propostaId: number,
+    data: string,
     equipamentos: [
         {
             fabricante: string;
@@ -56,6 +57,7 @@ const propostaAirpressSchema = new mongoose.Schema<Proposta>({
     prazo: { type: String, require: true },
     total: { type: String, require: true },
     propostaId: { type: Number },
+    data: {type: String, default : new Date().getTime().toString()},
     equipamentos: [
         {
             fabricante: { type: String, require: true },
