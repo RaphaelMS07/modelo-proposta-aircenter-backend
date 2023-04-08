@@ -1,12 +1,11 @@
 import mongoose from "mongoose";
+import { User } from "./user";
 interface Counter {
     seq: number
 }
-
-
-
 interface Proposta {
     id: string;
+    user: User;
     cliente: string;
     cnpj: string;
     tel: string;
@@ -37,6 +36,7 @@ interface Proposta {
         }
     ]
 }
+
 const airpressCounterSchema = new mongoose.Schema<Counter>({
     seq: { type: Number }
 })
@@ -45,6 +45,7 @@ var airpressCounter = mongoose.model('airpressCounter', airpressCounterSchema);
 
 const propostaAirpressSchema = new mongoose.Schema<Proposta>({
     id: { type: String },
+    user: {type: mongoose.Schema.Types.ObjectId, ref: "user", require: true},
     cliente: { type: String, require: true },
     cnpj: { type: String, require: true },
     tel: { type: String, require: true },

@@ -47,7 +47,7 @@ const getPropostaAirPressById = async (req: Request, res: Response, next: NextFu
     // get the post id from the req
     let id: string = req.params.id;
     // get the post
-    let result: Proposta | null = await models.propostaAirpress.findById(id);
+    let result: Proposta | null = await models.propostaAirpress.findById(id).populate("user");
     let proposta: Proposta | null = result;
     return res.status(200).send(proposta);
 };
