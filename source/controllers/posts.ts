@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import axios, { AxiosResponse } from 'axios';
-import models from '../models/propostaAirpress';
+import airpressModel from '../models/propostaAirpress';
+import user from '../models/user';
+import passport from 'passport';
+import { getToken } from '../Security/auth';
 
 
 interface Proposta {
@@ -34,9 +36,79 @@ interface Proposta {
     ]
 }
 
+const createUser = async (req: Request, res: Response, next: NextFunction) => {
+    // new userModel.user(req.body).save()
+    let noPasswordUser = {
+        nome: req.body.nome,
+        username: req.body.username,
+        telefone1: req.body.telefone1,
+        telefone2: req.body.telefone2
+    }
+    user.register(
+        new user(noPasswordUser),
+        req.body.password,
+        (err: any, user: any) => {
+            if (err) {
+                res
+                    .status(500)
+                    .setHeader("Content-Type", "application/json")
+                    .send({ message: `${err.message} - falha ao criar usuario` })
+            } else {
+                passport.authenticate('local')(req, res, () => {
+                    res.statusCode = 201;
+                    res.setHeader("content-type", "application/json");
+                    res.json({ success: true, status: "Registration Successful" });
+                })
+            }
+        }
+    )
+}
 
+const login = (req: Request, res: Response, next: NextFunction) => {
+    passport.authenticate("local", { session: false }, (err: any, user: any, info: any) => {
+      if (err || !user) {
+        return res.status(401).json({
+          success: false,
+          message: `${user}`,
+        });
+      }
+  
+      req.login(user, { session: false }, (err) => {
+        if (err) {
+          return next(err);
+        }
+  
+        const token = getToken({
+          _id: user._id,
+          username: user.username,
+          email: user.email,
+        });
+  
+        return res.status(200).json({
+          success: true,
+          token: token,
+          status: "You are successfully logged in",
+        });
+      });
+    })(req, res, next);
+}
+
+const addPropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
+
+    const propostaSalva = await new airpressModel.propostaAirpress(req.body).save();
+    // return response
+    return res.status(201).json(
+        propostaSalva._id
+    );
+}
+
+
+
+
+
+//Sobre propostas
 const getAllPropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
-    let result: Array<Proposta> = await models.propostaAirpress.find();
+    let result: Array<Proposta> = await airpressModel.propostaAirpress.find();
 
     let propostas: Array<Proposta> = result;
     return res.status(200).send(propostas)
@@ -47,7 +119,7 @@ const getPropostaAirPressById = async (req: Request, res: Response, next: NextFu
     // get the post id from the req
     let id: string = req.params.id;
     // get the post
-    let result: Proposta | null = await models.propostaAirpress.findById(id).populate("user");
+    let result: Proposta | null = await airpressModel.propostaAirpress.findById(id).populate("user");
     let proposta: Proposta | null = result;
     return res.status(200).send(proposta);
 };
@@ -60,7 +132,7 @@ const updatePropostaAirpress = async (req: Request, res: Response, next: NextFun
     let content: string = req.body ?? null;
 
     // update the post
-    let response: Proposta | null = await models.propostaAirpress.findByIdAndUpdate(id, {
+    let response: Proposta | null = await airpressModel.propostaAirpress.findByIdAndUpdate(id, {
         ...(content && { content })
     });
     // return response
@@ -74,31 +146,28 @@ const deletePropostaAirpress = async (req: Request, res: Response, next: NextFun
     // get the post id from req.params
     let id: string = req.params.id;
     // delete the post
-    let response: Proposta | null = await models.propostaAirpress.findByIdAndDelete(id)
+    let response: Proposta | null = await airpressModel.propostaAirpress.findByIdAndDelete(id)
     // return response
     return res.status(200).json({
         message: 'post deleted successfully'
     });
 };
 
-// adding a post
-const addPropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
-    // get the data from req.body
-    // let title: string = req.body.title;    
-    // add the post
-     
-     const propostaSalva = await new models.propostaAirpress(req.body).save();
-    // return response
-    return res.status(201).json(
-        propostaSalva._id
-    );
-}
 
-const saveCounter = async (req : Request, res: Response, next: NextFunction) => {
-    new models.airpressCounter(req.body).save();
+const saveCounter = async (req: Request, res: Response, next: NextFunction) => {
+    new airpressModel.airpressCounter(req.body).save();
     return res.status(200).json({
         messege: "Contador salvo com sucesso!"
     })
 }
 
-export default { getAllPropostaAirpress, getPropostaAirPressById, updatePropostaAirpress, deletePropostaAirpress, addPropostaAirpress, saveCounter };
+export default {
+    createUser,
+    login,
+    getAllPropostaAirpress,
+    getPropostaAirPressById,
+    updatePropostaAirpress,
+    deletePropostaAirpress,
+    addPropostaAirpress,
+    saveCounter
+};
