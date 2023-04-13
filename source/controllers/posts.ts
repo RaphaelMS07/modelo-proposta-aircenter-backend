@@ -65,32 +65,48 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
 }
 
 const login = (req: Request, res: Response, next: NextFunction) => {
-    passport.authenticate("local", { session: false }, (err: any, user: any, info: any) => {
-      if (err || !user) {
-        return res.status(401).json({
-          success: false,
-          message: `${user}`,
-        });
-      }
-  
-      req.login(user, { session: false }, (err) => {
-        if (err) {
-          return next(err);
+
+    passport.authenticate("local", { session: false }),
+        (req: any, res: any) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json({
+                success: true,
+                token: getToken({
+                    _id: req.body._id,
+                    username: req.body.username,
+                    email: req.body.email,
+                }),
+                status: "You are successfully logged in",
+            });
         }
-  
-        const token = getToken({
-          _id: user._id,
-          username: user.username,
-          email: user.email,
-        });
-  
-        return res.status(200).json({
-          success: true,
-          token: token,
-          status: "You are successfully logged in",
-        });
-      });
-    })(req, res, next);
+        ;
+    // passport.authenticate("local", { session: false }, (err: any, user: any, info: any) => {
+    //     if (!user) {
+    //         return res.status(401).json({
+    //           success: false,
+    //           message: "Invalid username or password",
+    //         });
+    //       }
+
+    //       req.login(user, { session: false }, (err: Error) => {
+    //         if (err) {
+    //           return next(err);
+    //         }
+
+    //         const token = getToken({
+    //           _id: user._id,
+    //           username: user.username,
+    //           email: user.email,
+    //         });
+
+    //         return res.status(200).json({
+    //           success: true,
+    //           token: token,
+    //           status: "You are successfully logged in",
+    //         });
+    //       });
+    //     })(req, res, next);
 }
 
 const addPropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
