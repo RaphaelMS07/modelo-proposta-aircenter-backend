@@ -81,7 +81,7 @@ propostaAirpressSchema.pre<Proposta>('save', async function (next) {
     var doc = this;
     try {
         const counter = await airpressCounter.findByIdAndUpdate(
-             "641c70e2622e8b36f4fa68bf",
+             "641c70e2622e8b36f4fa68bf", //id do counter
             { $inc: { seq: 1 } },
             { new: true }
         )

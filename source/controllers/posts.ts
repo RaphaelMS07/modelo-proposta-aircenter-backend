@@ -37,7 +37,6 @@ interface Proposta {
 }
 
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
-    // new userModel.user(req.body).save()
     let noPasswordUser = {
         nome: req.body.nome,
         username: req.body.username,
@@ -74,39 +73,15 @@ const login = (req: Request, res: Response, next: NextFunction) => {
                 success: true,
                 token: getToken({
                     _id: req.body._id,
+                    id: req.body.id,
                     username: req.body.username,
                     email: req.body.email,
                 }),
                 status: "You are successfully logged in",
             });
         }
-        ;
-    // passport.authenticate("local", { session: false }, (err: any, user: any, info: any) => {
-    //     if (!user) {
-    //         return res.status(401).json({
-    //           success: false,
-    //           message: "Invalid username or password",
-    //         });
-    //       }
 
-    //       req.login(user, { session: false }, (err: Error) => {
-    //         if (err) {
-    //           return next(err);
-    //         }
 
-    //         const token = getToken({
-    //           _id: user._id,
-    //           username: user.username,
-    //           email: user.email,
-    //         });
-
-    //         return res.status(200).json({
-    //           success: true,
-    //           token: token,
-    //           status: "You are successfully logged in",
-    //         });
-    //       });
-    //     })(req, res, next);
 }
 
 const addPropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
