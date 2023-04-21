@@ -14,7 +14,12 @@ router
         success: true,
         token: getToken({
             _id: req.user._id,
-            username: req.body.username,
+            username: req.user.username,
+            nome: req.user.nome,
+            telefone1: req.user.telefone1,
+            email: req.user.email,
+            funcao: req.user.funcao,
+
         }),
         status: "You are successfully logged in",
     });
