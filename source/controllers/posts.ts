@@ -78,6 +78,10 @@ const login = (req: Request, res: Response, next: NextFunction) => {
                     id: req.body.id,
                     username: req.body.username,
                     email: req.body.email,
+                    nome: req.body.nome,
+                    funcao: req.body.funcao,
+                    telefone1: req.body.telefone1,
+                    telefone2: req.body.telefone2
                 }),
                 status: "You are successfully logged in",
             });
