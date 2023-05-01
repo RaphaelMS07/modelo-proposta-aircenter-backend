@@ -26,13 +26,21 @@ interface Proposta {
             caracteristicas: string;
         }
     ]
-    itens: [
+    produtos: [
         {
             descricao: string;
             valorUnitario: number;
             valorTotal: number;
             qtd: number;
 
+        }
+    ]
+    servicos: [
+        {
+            descricao: string;
+            valorUnitario: number;
+            valorTotal: number;
+            qtd: number;
         }
     ]
 }
@@ -66,7 +74,7 @@ const propostaAirpressSchema = new mongoose.Schema<Proposta>({
             caracteristicas: { type: String, require: true }
         }
     ],
-    itens: [
+    produtos: [ 
         {
             descricao: { type: String, require: true },
             valorUnitario: { type: Number, requere: true },
@@ -74,7 +82,16 @@ const propostaAirpressSchema = new mongoose.Schema<Proposta>({
             qtd: { type: Number }
             // item: {type: mongoose.Schema.Types.ObjectId, ref: "item"},
         }
+    ],
+    servicos: [
+        {
+            descricao: { type: String, require: true },
+            valorUnitario: { type: Number, requere: true },
+            valorTotal: { type: Number, require: true },
+            qtd: { type: Number }
+        }
     ]
+
 });
 
 propostaAirpressSchema.pre<Proposta>('save', async function (next) {
@@ -84,17 +101,18 @@ propostaAirpressSchema.pre<Proposta>('save', async function (next) {
              "641c70e2622e8b36f4fa68bf", //id do counter
             { $inc: { seq: 1 } },
             { new: true }
-        )
+        ) 
         console.log(counter);
         if (counter) {
             doc.propostaId = counter.seq;
         }
         next();
     } catch (error: any) {
-        next(error);
+        next(error); 
     }
 
 })
 const propostaAirpress = mongoose.model("propostaAirpress", propostaAirpressSchema);
 
 export default {propostaAirpress, airpressCounter};
+

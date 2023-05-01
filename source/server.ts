@@ -8,10 +8,12 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from "passport-local";
 import user, { User } from './models/user';
 import { ExtractJwt, Strategy as JWTStrategy, StrategyOptions } from 'passport-jwt';
+import dotenv from 'dotenv'
+dotenv.config()
 
 db.on("error", console.log.bind(console, "Erro de conexao"));
 db.once("open", () => {
-  console.log("Conexao com banco feita com sucesso");
+  console.log("Conexao com banco feita com sucesso"); 
 });
 
 
@@ -33,16 +35,14 @@ passport.use(new JWTStrategy(opts as StrategyOptions, function (jwt_payload, don
     //       return done(null, user);
     //   }else{
     //       return done(null, false);
-    //   }
-  ).then((user: any) => {
+    //   } 
+  ).then((user: any) => { 
 
-  
       return done(null, user);
   
    
   })
 }))
-
 const router: Express = express();
 
 /** Logging */
