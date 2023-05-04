@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import airpressModel from '../models/propostaAirpress';
+import aircenterModel from '../models/propostaAircenter';
 import user from '../models/user';
 import passport from 'passport';
 import { getToken } from '../Security/auth';
@@ -26,7 +27,15 @@ interface Proposta {
             caracteristicas: string;
         }
     ]
-    itens: [
+    servicos: [
+        {
+            descricao: string;
+            qtd: number;
+            valorUnitario: number;
+            valorTotal: number;
+        }
+    ]
+    produtos: [
         {
             descricao: string;
             qtd: number;
@@ -90,6 +99,8 @@ const login = (req: Request, res: Response, next: NextFunction) => {
 
 }
 
+
+//Sobre propostas
 const addPropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
 
     const propostaSalva = await new airpressModel.propostaAirpress(req.body).save();
@@ -99,14 +110,23 @@ const addPropostaAirpress = async (req: Request, res: Response, next: NextFuncti
     );
 }
 
+const addPropostaAircenter = async (req: Request, res: Response, next: NextFunction) => {
 
+    const propostaSalva = await new aircenterModel.propostaAircenter(req.body).save();
+    // return response
+    return res.status(201).json(
+        propostaSalva._id
+    );
+}
 
-
-
-//Sobre propostas
 const getAllPropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
     let result: Array<Proposta> = await airpressModel.propostaAirpress.find();
+    let propostas: Array<Proposta> = result;
+    return res.status(200).send(propostas)
+};
 
+const getAllPropostaAircenter = async (req: Request, res: Response, next: NextFunction) => {
+    let result: Array<Proposta> = await aircenterModel.propostaAircenter.find();
     let propostas: Array<Proposta> = result;
     return res.status(200).send(propostas)
 };
@@ -121,13 +141,21 @@ const getPropostaAirPressById = async (req: Request, res: Response, next: NextFu
     return res.status(200).send(proposta);
 };
 
+const getPropostaAirCenterById = async (req: Request, res: Response, next: NextFunction) => {
+    // get the post id from the req
+    let id: string = req.params.id;
+    // get the post
+    let result: Proposta | null = await aircenterModel.propostaAircenter.findById(id).populate("user");
+    let proposta: Proposta | null = result;
+    return res.status(200).send(proposta);
+};
+
 // updating a post
 const updatePropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
     // get the post id from the req.params
     let id: string = req.params.id;
     // get the data from req.body
     let content: string = req.body ?? null;
-
     // update the post
     let response: Proposta | null = await airpressModel.propostaAirpress.findByIdAndUpdate(id, {
         ...(content && { content })
@@ -137,6 +165,22 @@ const updatePropostaAirpress = async (req: Request, res: Response, next: NextFun
         message: response
     });
 };
+
+const updatePropostaAircenter = async (req: Request, res: Response, next: NextFunction) => {
+    // get the post id from the req.params
+    let id: string = req.params.id;
+    // get the data from req.body
+    let content: string = req.body ?? null;
+    // update the post
+    let response: Proposta | null = await aircenterModel.propostaAircenter.findByIdAndUpdate(id, {
+        ...(content && { content })
+    });
+    // return response
+    return res.status(200).json({
+        message: response
+    });
+};
+
 
 // deleting a post
 const deletePropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
@@ -150,7 +194,18 @@ const deletePropostaAirpress = async (req: Request, res: Response, next: NextFun
     });
 };
 
+const deletePropostaAircenter = async (req: Request, res: Response, next: NextFunction) => {
+    // get the post id from req.params
+    let id: string = req.params.id;
+    // delete the post
+    let response: Proposta | null = await aircenterModel.propostaAircenter.findByIdAndDelete(id)
+    // return response
+    return res.status(200).json({
+        message: 'post deleted successfully'
+    });
+};
 
+//usado apenas 1 vez
 const saveCounter = async (req: Request, res: Response, next: NextFunction) => {
     new airpressModel.airpressCounter(req.body).save();
     return res.status(200).json({
@@ -162,9 +217,14 @@ export default {
     createUser,
     login,
     getAllPropostaAirpress,
+    getAllPropostaAircenter,
     getPropostaAirPressById,
+    getPropostaAirCenterById,
     updatePropostaAirpress,
+    updatePropostaAircenter,
     deletePropostaAirpress,
+    deletePropostaAircenter,
     addPropostaAirpress,
+    addPropostaAircenter,
     saveCounter
 };

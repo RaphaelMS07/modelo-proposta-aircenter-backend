@@ -28,9 +28,13 @@ router
         passport.authenticate("jwt", { session: false }),
         controller.getAllPropostaAirpress)
     .get('/propostas-airpress/:id', controller.getPropostaAirPressById)
+    .get('/propostas-aircenter/:id', controller.getPropostaAirCenterById)
     .put('/propostas-airpress-update/:id', controller.updatePropostaAirpress)
+    .put('/propostas-aircenter-update/:id', controller.updatePropostaAircenter)
     .delete('/propostas-airpress-delete/:id', controller.deletePropostaAirpress)
+    .delete('/propostas-aircenter-delete/:id', controller.deletePropostaAircenter)
     .post('/propostas-airpress-save', controller.addPropostaAirpress)
-    .post('/save-counter', controller.saveCounter)
+    .post('/propostas-aircenter-save', controller.addPropostaAircenter)
+    // .post('/save-counter', controller.saveCounter)
 
 export = router;

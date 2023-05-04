@@ -45,12 +45,12 @@ interface Proposta {
     ]
 }
 
-const airpressCounterSchema = new mongoose.Schema<Counter>({
+const aircenterCounterSchema = new mongoose.Schema<Counter>({
     seq: { type: Number }
 })
-var airpressCounter = mongoose.model('airpressCounter', airpressCounterSchema);
+var aircenterCounter = mongoose.model('aircenterCounter', aircenterCounterSchema);
 
-const propostaAirpressSchema = new mongoose.Schema<Proposta>({
+const propostaAircenterSchema = new mongoose.Schema<Proposta>({
     id: { type: String },
     user: {type: mongoose.Schema.Types.ObjectId, ref: "user", require: true},
     cliente: { type: String, require: true },
@@ -93,11 +93,11 @@ const propostaAirpressSchema = new mongoose.Schema<Proposta>({
 
 });
 
-propostaAirpressSchema.pre<Proposta>('save', async function (next) {
+propostaAircenterSchema.pre<Proposta>('save', async function (next) {
     var doc = this;
     try {
-        const counter = await airpressCounter.findByIdAndUpdate(
-             "641c70e2622e8b36f4fa68bf", //id do counter
+        const counter = await aircenterCounter.findByIdAndUpdate(
+             "64529576befa4b867c2bb814", //id do counter
             { $inc: { seq: 1 } },
             { new: true }
         ) 
@@ -111,7 +111,7 @@ propostaAirpressSchema.pre<Proposta>('save', async function (next) {
     }
 
 })
-const propostaAirpress = mongoose.model("propostaAirpress", propostaAirpressSchema);
+const propostaAircenter = mongoose.model("propostaAircenter", propostaAircenterSchema);
 
-export default {propostaAirpress, airpressCounter};
+export default {propostaAircenter, aircenterCounter};
 

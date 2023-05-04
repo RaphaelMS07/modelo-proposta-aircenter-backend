@@ -2,4 +2,4 @@ JWT_SECRET = .czeowxy.mongodb.net/drpper-node
 
 PORT = 6060
 
-BACKEND_URL = http://localhost:
+BACKEND_URL = http://localhost: 
