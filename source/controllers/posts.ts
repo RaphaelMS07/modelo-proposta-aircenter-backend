@@ -106,7 +106,7 @@ const addPropostaAirpress = async (req: Request, res: Response, next: NextFuncti
     const propostaSalva = await new airpressModel.propostaAirpress(req.body).save();
     // return response
     return res.status(201).json(
-        propostaSalva._id
+        `airpress-${propostaSalva._id}`
     );
 }
 
@@ -115,9 +115,9 @@ const addPropostaAircenter = async (req: Request, res: Response, next: NextFunct
     const propostaSalva = await new aircenterModel.propostaAircenter(req.body).save();
     // return response
     return res.status(201).json(
-        propostaSalva._id
+        `aircenter-${propostaSalva._id}`
     );
-}
+} 
 
 const getAllPropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
     let result: Array<Proposta> = await airpressModel.propostaAirpress.find();
@@ -226,5 +226,5 @@ export default {
     deletePropostaAircenter,
     addPropostaAirpress,
     addPropostaAircenter,
-    saveCounter
+    saveCounter 
 };
