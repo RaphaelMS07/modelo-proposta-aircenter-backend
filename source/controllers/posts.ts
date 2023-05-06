@@ -52,6 +52,7 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
         telefone1: req.body.telefone1,
         telefone2: req.body.telefone2,
         email: req.body.email,
+        email2: req.body.email2,
         funcao: req.body.funcao
     }
     user.register(
