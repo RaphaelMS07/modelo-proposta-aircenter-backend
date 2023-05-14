@@ -8,6 +8,7 @@ interface Proposta {
     user: User;
     cliente: string;
     cnpj: string;
+    cpf: string;
     tel: string;
     endereco: string;
     ac: string;
@@ -54,7 +55,8 @@ const propostaAirpressSchema = new mongoose.Schema<Proposta>({
     id: { type: String },
     user: {type: mongoose.Schema.Types.ObjectId, ref: "user", require: true},
     cliente: { type: String, require: true },
-    cnpj: { type: String, require: true },
+    cnpj: { type: String},
+    cpf: { type: String},
     tel: { type: String, require: true },
     endereco: { type: String, require: true },
     ac: { type: String, require: true },
