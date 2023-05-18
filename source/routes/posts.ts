@@ -5,6 +5,8 @@ import { getToken } from '../Security/auth';
 const router = express.Router();
 
 router
+    .put('/proposta-airpress/:id', controller.updatePropostaAirpress)
+    .put('/proposta-aircenter/:id', controller.updatePropostaAircenter)
     .post('/save-user', controller.createUser)
     .post('/login', passport.authenticate("local", { session: false }),
         (req: any, res: any) => {
@@ -27,14 +29,15 @@ router
     .get('/propostas-airpress',
         passport.authenticate("jwt", { session: false }),
         controller.getAllPropostaAirpress)
+    .get('/propostas-aircenter',
+        passport.authenticate("jwt", { session: false }),
+        controller.getAllPropostaAircenter)
     .get('/propostas-airpress/:id', controller.getPropostaAirPressById)
     .get('/propostas-aircenter/:id', controller.getPropostaAirCenterById)
-    .put('/propostas-airpress-update/:id', controller.updatePropostaAirpress)
-    .put('/propostas-aircenter-update/:id', controller.updatePropostaAircenter)
     .delete('/propostas-airpress-delete/:id', controller.deletePropostaAirpress)
     .delete('/propostas-aircenter-delete/:id', controller.deletePropostaAircenter)
     .post('/propostas-airpress-save', controller.addPropostaAirpress)
     .post('/propostas-aircenter-save', controller.addPropostaAircenter)
-    // .post('/save-counter', controller.saveCounter)
+// .post('/save-counter', controller.saveCounter)
 
 export = router; 

@@ -118,7 +118,7 @@ const addPropostaAircenter = async (req: Request, res: Response, next: NextFunct
     return res.status(201).json(
         `aircenter-${propostaSalva._id}`
     );
-} 
+}
 
 const getAllPropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
     let result: Array<Proposta> = await airpressModel.propostaAirpress.find();
@@ -157,7 +157,7 @@ const updatePropostaAirpress = async (req: Request, res: Response, next: NextFun
     let id: string = req.params.id;
     // get the data from req.body
     let content: string = req.body ?? null;
-    // update the post
+
     let response: Proposta | null = await airpressModel.propostaAirpress.findByIdAndUpdate(id, {
         ...(content && { content })
     });
@@ -172,29 +172,39 @@ const updatePropostaAircenter = async (req: Request, res: Response, next: NextFu
     let id: string = req.params.id;
     // get the data from req.body
     let content: string = req.body ?? null;
-    // update the post
+    console.log(content)
     let response: Proposta | null = await aircenterModel.propostaAircenter.findByIdAndUpdate(id, {
         ...(content && { content })
     });
     // return response
-    return res.status(200).json({
-        message: response
-    });
+    return res.status(200).json(
+        `aircenter-${id}`
+    );
 };
 
 
 // deleting a post
 const deletePropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
-    // get the post id from req.params
-    let id: string = req.params.id;
-    // delete the post
-    let response: Proposta | null = await airpressModel.propostaAirpress.findByIdAndDelete(id)
-    // return response
-    return res.status(200).json({
-        message: 'post deleted successfully'
-    });
-};
+    try {
+        const id: string = req.params.id;
+        const content: Proposta = req.body;
 
+        const updatedProposta: Proposta | null = await aircenterModel.propostaAircenter.findByIdAndUpdate(
+            id,
+            content,
+            { new: true } // Add this option to return the updated document
+        );
+
+        if (!updatedProposta) {
+            return res.status(404).json({ message: 'Proposta not found' });
+        }
+
+        return res.status(200).json(updatedProposta);
+    } catch (error) {
+        console.error('Error updating proposta:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
 const deletePropostaAircenter = async (req: Request, res: Response, next: NextFunction) => {
     // get the post id from req.params
     let id: string = req.params.id;
@@ -227,5 +237,5 @@ export default {
     deletePropostaAircenter,
     addPropostaAirpress,
     addPropostaAircenter,
-    saveCounter 
+    saveCounter
 };
