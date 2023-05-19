@@ -168,23 +168,6 @@ const updatePropostaAirpress = async (req: Request, res: Response, next: NextFun
 };
 
 const updatePropostaAircenter = async (req: Request, res: Response, next: NextFunction) => {
-    // get the post id from the req.params
-    let id: string = req.params.id;
-    // get the data from req.body
-    let content: string = req.body ?? null;
-    console.log(content)
-    let response: Proposta | null = await aircenterModel.propostaAircenter.findByIdAndUpdate(id, {
-        ...(content && { content })
-    });
-    // return response
-    return res.status(200).json(
-        `aircenter-${id}`
-    );
-};
-
-
-// deleting a post
-const deletePropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id: string = req.params.id;
         const content: Proposta = req.body;
@@ -205,6 +188,19 @@ const deletePropostaAirpress = async (req: Request, res: Response, next: NextFun
         return res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+
+// deleting a post
+const deletePropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
+     // get the post id from req.params
+     let id: string = req.params.id;
+     // delete the post
+     let response: Proposta | null = await airpressModel.propostaAirpress.findByIdAndDelete(id)
+     // return response
+     return res.status(200).json({
+         message: 'Proposta airpress deletada com sucesso'
+     });
+};
 const deletePropostaAircenter = async (req: Request, res: Response, next: NextFunction) => {
     // get the post id from req.params
     let id: string = req.params.id;
@@ -212,7 +208,7 @@ const deletePropostaAircenter = async (req: Request, res: Response, next: NextFu
     let response: Proposta | null = await aircenterModel.propostaAircenter.findByIdAndDelete(id)
     // return response
     return res.status(200).json({
-        message: 'post deleted successfully'
+        message: 'Proposta aircenter deletada com sucesso'
     });
 };
 
