@@ -153,18 +153,25 @@ const getPropostaAirCenterById = async (req: Request, res: Response, next: NextF
 
 // updating a post
 const updatePropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
-    // get the post id from the req.params
-    let id: string = req.params.id;
-    // get the data from req.body
-    let content: string = req.body ?? null;
+    try {
+        const id: string = req.params.id;
+        const content: Proposta = req.body;
 
-    let response: Proposta | null = await airpressModel.propostaAirpress.findByIdAndUpdate(id, {
-        ...(content && { content })
-    });
-    // return response
-    return res.status(200).json({
-        message: response
-    });
+        const updatedProposta: Proposta | null = await airpressModel.propostaAirpress.findByIdAndUpdate(
+            id,
+            content,
+            { new: true }
+        );
+
+        if (!updatedProposta) {
+            return res.status(404).json({ message: 'Proposta not found' });
+        }
+
+        return res.status(200).json(updatedProposta);
+    } catch (error) {
+        console.error('Error updating proposta Airpress:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
 };
 
 const updatePropostaAircenter = async (req: Request, res: Response, next: NextFunction) => {
@@ -184,7 +191,7 @@ const updatePropostaAircenter = async (req: Request, res: Response, next: NextFu
 
         return res.status(200).json(updatedProposta);
     } catch (error) {
-        console.error('Error updating proposta:', error);
+        console.error('Error updating proposta Aircenter:', error);
         return res.status(500).json({ message: 'Internal server error' });
     }
 };

@@ -5,9 +5,15 @@ import { getToken } from '../Security/auth';
 const router = express.Router();
 
 router
-    .put('/proposta-airpress/:id', controller.updatePropostaAirpress)
-    .put('/proposta-aircenter/:id', controller.updatePropostaAircenter)
-    .post('/save-user', controller.createUser)
+    .put('/proposta-airpress/:id',
+        passport.authenticate("jwt", { session: false }),
+        controller.updatePropostaAirpress)
+    .put('/proposta-aircenter/:id',
+        passport.authenticate("jwt", { session: false }),
+        controller.updatePropostaAircenter)
+    .post('/save-user',
+        passport.authenticate("jwt", { session: false }),
+        controller.createUser)
     .post('/login', passport.authenticate("local", { session: false }),
         (req: any, res: any) => {
             res.statusCode = 200;
@@ -32,12 +38,24 @@ router
     .get('/propostas-aircenter',
         passport.authenticate("jwt", { session: false }),
         controller.getAllPropostaAircenter)
-    .get('/propostas-airpress/:id', controller.getPropostaAirPressById)
-    .get('/propostas-aircenter/:id', controller.getPropostaAirCenterById)
-    .delete('/propostas-airpress-delete/:id', controller.deletePropostaAirpress)
-    .delete('/propostas-aircenter-delete/:id', controller.deletePropostaAircenter)
-    .post('/propostas-airpress-save', controller.addPropostaAirpress)
-    .post('/propostas-aircenter-save', controller.addPropostaAircenter)
+    .get('/propostas-airpress/:id',
+        passport.authenticate("jwt", { session: false }),
+        controller.getPropostaAirPressById)
+    .get('/propostas-aircenter/:id',
+        passport.authenticate("jwt", { session: false }),
+        controller.getPropostaAirCenterById)
+    .delete('/propostas-airpress-delete/:id',
+        passport.authenticate("jwt", { session: false }),
+        controller.deletePropostaAirpress)
+    .delete('/propostas-aircenter-delete/:id',
+        passport.authenticate("jwt", { session: false }),
+        controller.deletePropostaAircenter)
+    .post('/propostas-airpress-save',
+        passport.authenticate("jwt", { session: false }),
+        controller.addPropostaAirpress)
+    .post('/propostas-aircenter-save',
+        passport.authenticate("jwt", { session: false }),
+        controller.addPropostaAircenter)
 // .post('/save-counter', controller.saveCounter)
 
 export = router; 
