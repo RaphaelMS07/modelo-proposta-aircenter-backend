@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import airpressModel from '../models/propostaAirpress';
 import aircenterModel from '../models/propostaAircenter';
-import user from '../models/user';
+import user, { User } from '../models/user';
 import passport from 'passport';
 import { getToken } from '../Security/auth';
 
@@ -100,7 +100,14 @@ const login = (req: Request, res: Response, next: NextFunction) => {
 
 }
 
-
+const getUserById = async (req: Request, res: Response, next: NextFunction) => {
+    // get the post id from the req
+    let id: string = req.params.id;
+    // get the post
+    let result: User | null = await user.findById(id)
+    let usuario: User | null = result;
+    return res.status(200).send(usuario);
+};
 //Sobre propostas
 const addPropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -131,6 +138,11 @@ const getAllPropostaAircenter = async (req: Request, res: Response, next: NextFu
     let propostas: Array<Proposta> = result;
     return res.status(200).send(propostas)
 };
+
+const getAllPropostaForResponseTest =async (req: Request, res: Response) => {
+    let result: Array<Proposta> = await aircenterModel.propostaAircenter.find();
+    return res.status
+}
 
 // getting a single post
 const getPropostaAirPressById = async (req: Request, res: Response, next: NextFunction) => {
@@ -221,7 +233,7 @@ const deletePropostaAircenter = async (req: Request, res: Response, next: NextFu
 
 //usado apenas 1 vez
 const saveCounter = async (req: Request, res: Response, next: NextFunction) => {
-    new airpressModel.airpressCounter(req.body).save();
+    new aircenterModel.aircenterCounter(req.body).save();
     return res.status(200).json({
         messege: "Contador salvo com sucesso!"
     })
@@ -232,6 +244,7 @@ export default {
     login,
     getAllPropostaAirpress,
     getAllPropostaAircenter,
+    getAllPropostaForResponseTest,
     getPropostaAirPressById,
     getPropostaAirCenterById,
     updatePropostaAirpress,

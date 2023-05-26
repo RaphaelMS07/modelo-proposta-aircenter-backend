@@ -12,9 +12,9 @@ router
         passport.authenticate("jwt", { session: false }),
         controller.updatePropostaAircenter)
     .post('/save-user',
-        passport.authenticate("jwt", { session: false }),
         controller.createUser)
-    .post('/login', passport.authenticate("local", { session: false }),
+    .post('/login',
+        passport.authenticate("local", { session: false }),
         (req: any, res: any) => {
             res.statusCode = 200;
             res.setHeader("Content-Type", "application/json");
@@ -32,6 +32,10 @@ router
                 status: "You are successfully logged in",
             });
         })
+    .get('/user/:id',
+        passport.authenticate("jwt", { session: false }),
+        
+    )
     .get('/propostas-airpress',
         passport.authenticate("jwt", { session: false }),
         controller.getAllPropostaAirpress)
@@ -56,6 +60,9 @@ router
     .post('/propostas-aircenter-save',
         passport.authenticate("jwt", { session: false }),
         controller.addPropostaAircenter)
+    .post('/test-response',
+        passport.authenticate("jwt", { session: false }),
+        controller.getAllPropostaForResponseTest)
 // .post('/save-counter', controller.saveCounter)
 
 export = router; 
