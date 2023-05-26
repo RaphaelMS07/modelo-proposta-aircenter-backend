@@ -140,7 +140,7 @@ const getAllPropostaAircenter = async (req: Request, res: Response, next: NextFu
 };
 
 const getAllPropostaForResponseTest =async (req: Request, res: Response) => {
-    let result: Array<Proposta> = await aircenterModel.propostaAircenter.find();
+    let result: Array<Proposta> = await aircenterModel.propostaAircenter.find().populate('user');
     return res.status
 }
 
