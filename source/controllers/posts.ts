@@ -128,13 +128,13 @@ const addPropostaAircenter = async (req: Request, res: Response, next: NextFunct
 }
 
 const getAllPropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
-    let result: Array<Proposta> = await airpressModel.propostaAirpress.find();
+    let result: Array<Proposta> = await airpressModel.propostaAirpress.find().populate('user');
     let propostas: Array<Proposta> = result;
     return res.status(200).send(propostas)
 };
 
 const getAllPropostaAircenter = async (req: Request, res: Response, next: NextFunction) => {
-    let result: Array<Proposta> = await aircenterModel.propostaAircenter.find();
+    let result: Array<Proposta> = await aircenterModel.propostaAircenter.find().populate('user');
     let propostas: Array<Proposta> = result;
     return res.status(200).send(propostas)
 };

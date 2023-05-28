@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import { User } from "./user";
+import dotenv from "dotenv";
+dotenv.config()
 interface Counter {
     seq: number
 }
@@ -99,7 +101,7 @@ propostaAircenterSchema.pre<Proposta>('save', async function (next) {
     var doc = this;
     try {
         const counter = await aircenterCounter.findByIdAndUpdate(
-             "64529576befa4b867c2bb814", //id do counter
+             process.env.IDCOUNTERCENTER,
             { $inc: { seq: 1 } },
             { new: true }
         ) 
