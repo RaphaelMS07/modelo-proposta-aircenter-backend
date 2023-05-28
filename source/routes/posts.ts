@@ -33,7 +33,8 @@ router
             });
         })
     .get('/user/:id',
-        passport.authenticate("jwt", { session: false }),        
+        passport.authenticate("jwt", { session: false }),
+        controller.getUserById        
     )
     .get('/propostas-airpress',
         passport.authenticate("jwt", { session: false }),

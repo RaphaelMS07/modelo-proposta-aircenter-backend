@@ -242,6 +242,7 @@ const saveCounter = async (req: Request, res: Response, next: NextFunction) => {
 export default {
     createUser,
     login,
+    getUserById,
     getAllPropostaAirpress,
     getAllPropostaAircenter,
     getAllPropostaForResponseTest,
