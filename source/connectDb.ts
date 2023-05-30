@@ -1,8 +1,9 @@
 import mongoose, { ConnectOptions } from "mongoose";
+import dotenv from 'dotenv'
+dotenv.config()
 
-mongoose.connect("mongodb+srv://grupo7:grupo777@cluster0.czeowxy.mongodb.net/modelo-proposta-aircenter");
-// mongoose.connect("mongodb://localhost:27017/local");
-// "mongodb+srv://grupo7:grupo777@cluster0.czeowxy.mongodb.net/drpper-node"
+mongoose.connect(process.env.CONNECTION as string);
+
 
 let db = mongoose.connection;
 
