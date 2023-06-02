@@ -9,7 +9,7 @@ router
         passport.authenticate("jwt", { session: false }),
         controller.updatePropostaAirpress)
     .put('/proposta-aircenter/:id',
-        passport.authenticate("jwt", { session: false }),
+        passport.authenticate("jwt"  , { session: false }),
         controller.updatePropostaAircenter)
     .post('/save-user',
         controller.createUser)
@@ -34,7 +34,7 @@ router
         })
     .get('/user/:id',
         passport.authenticate("jwt", { session: false }),
-        controller.getUserById        
+        controller.getUserById
     )
     .get('/propostas-airpress',
         passport.authenticate("jwt", { session: false }),
