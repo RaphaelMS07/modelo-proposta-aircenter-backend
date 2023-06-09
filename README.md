@@ -4,7 +4,7 @@ Start: npm run dev
 
 ID counter para produção:
 
-em .env IDCOUNTERPRESS = 646fed77d7902e9f0e743beb IDCOUNTERCENTER = 64529576befa4b867c2bb814
+em .env IDCOUNTERPRESS = 641c70e2622e8b36f4fa68bf IDCOUNTERCENTER = 64529576befa4b867c2bb814
 
 Conexão para produção
 
