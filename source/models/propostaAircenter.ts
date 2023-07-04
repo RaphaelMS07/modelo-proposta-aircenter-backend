@@ -20,6 +20,7 @@ interface Proposta {
     pagamento: string;
     prazo: string;
     total: string;
+    desconto: number;
     propostaId: number,
     data: string,
     equipamentos: [
@@ -68,6 +69,7 @@ const propostaAircenterSchema = new mongoose.Schema<Proposta>({
     pagamento: { type: String, require: true },
     prazo: { type: String, require: true },
     total: { type: String, require: true },
+    desconto: {type: Number},
     propostaId: { type: Number },
     data: {type: String, default : new Date().getTime().toString()},
     equipamentos: [
