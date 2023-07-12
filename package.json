@@ -10,6 +10,9 @@
     "build": "tsup source",
     "builde": "rm -rf build/ && prettier --write source/ && tsc"
   },
+  "engines": {
+    "node" : "16"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/RaphaelMS07/modelo-proposta-aircenter-backend.git"
