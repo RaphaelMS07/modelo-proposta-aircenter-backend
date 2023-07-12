@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon source/server.ts",
-    "build": "rm -rf build/ && prettier --write source/ && tsc"
+    "start" : "node dist/server.js",
+    "build": "tsup source",
+    "builde": "rm -rf build/ && prettier --write source/ && tsc"
   },
   "repository": {
     "type": "git",
@@ -40,6 +42,7 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^8.0.0",
     "ts-node": "^10.9.1",
+    "tsup": "^7.1.0",
     "typescript": "^4.9.5"
   },
   "devDependencies": {
