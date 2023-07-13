@@ -234,6 +234,7 @@ const deletePropostaAircenter = async (req: Request, res: Response, next: NextFu
 //usado apenas 1 vez
 const saveCounter = async (req: Request, res: Response, next: NextFunction) => {
     new aircenterModel.aircenterCounter(req.body).save();
+    new airpressModel.airpressCounter(req.body).save();
     return res.status(200).json({
         messege: "Contador salvo com sucesso!"
     })
