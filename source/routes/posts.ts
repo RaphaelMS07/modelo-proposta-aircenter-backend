@@ -9,7 +9,7 @@ router
         passport.authenticate("jwt", { session: false }),
         controller.updatePropostaAirpress)
     .put('/proposta-aircenter/:id',
-        passport.authenticate("jwt"  , { session: false }),
+        passport.authenticate("jwt", { session: false }),
         controller.updatePropostaAircenter)
     .post('/save-user',
         controller.createUser)
@@ -39,6 +39,8 @@ router
     .get('/propostas-airpress',
         passport.authenticate("jwt", { session: false }),
         controller.getAllPropostaAirpress)
+    .get('/propostas-airpress-page/:pg',
+        controller.getPaginatedPropostaAirpress)
     .get('/propostas-aircenter',
         passport.authenticate("jwt", { session: false }),
         controller.getAllPropostaAircenter)
@@ -63,6 +65,6 @@ router
     .post('/test-response',
         passport.authenticate("jwt", { session: false }),
         controller.getAllPropostaForResponseTest)
-    // .post('/save-counter', controller.saveCounter)
+// .post('/save-counter', controller.saveCounter)
 
 export = router; 

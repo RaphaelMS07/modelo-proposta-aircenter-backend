@@ -133,6 +133,24 @@ const getAllPropostaAirpress = async (req: Request, res: Response, next: NextFun
     return res.status(200).send(propostas)
 };
 
+const PAGE_SIZE = 20;
+const getPaginatedPropostaAirpress = async (req: Request, res: Response) => {
+    const {page} = req.query;
+
+    const pageNumber = parseInt(page as string) || 1 //default 1
+    const skipDocuments = (pageNumber -1)* PAGE_SIZE;
+
+    try{
+        const propostas = await airpressModel.propostaAirpress.find().skip(skipDocuments).limit(PAGE_SIZE).populate('user').exec();
+
+        const totalDocuments = await airpressModel.propostaAirpress.countDocuments();
+
+        return res.status(200).send({propostas, totalDocuments})
+    } catch (error) {
+        return res.status(500).send(error)
+    }
+}
+
 const getAllPropostaAircenter = async (req: Request, res: Response, next: NextFunction) => {
     let result: Array<Proposta> = await aircenterModel.propostaAircenter.find().populate('user');
     let propostas: Array<Proposta> = result;
@@ -245,6 +263,7 @@ export default {
     login,
     getUserById,
     getAllPropostaAirpress,
+    getPaginatedPropostaAirpress,
     getAllPropostaAircenter,
     getAllPropostaForResponseTest,
     getPropostaAirPressById,
