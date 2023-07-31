@@ -75,8 +75,8 @@ router
         controller.addPropostaAircenter
     )
     .post('/test-response',
-        passport.authenticate("jwt", { session: false }),
-        controller.getAllPropostaForResponseTest)
+        controller.getAllPropostaForResponseTest
+    )
 // .post('/save-counter', controller.saveCounter)
 
 export = router; 

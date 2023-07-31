@@ -133,7 +133,7 @@ const getAllPropostaAirpress = async (req: Request, res: Response, next: NextFun
     return res.status(200).send(propostas)
 };
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 30;
 const getPaginatedPropostaAirpress = async (req: Request, res: Response) => {
     let page = req.params.id;
     console.log(page)
