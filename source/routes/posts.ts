@@ -38,30 +38,42 @@ router
     )
     .get('/propostas-airpress',
         passport.authenticate("jwt", { session: false }),
-        controller.getAllPropostaAirpress)
-    .get('/propostas-airpress-page/:pg',
-        controller.getPaginatedPropostaAirpress)
+        controller.getAllPropostaAirpress
+    )
+    .get('/propostas-airpress-page/:id',
+        controller.getPaginatedPropostaAirpress
+    )
     .get('/propostas-aircenter',
         passport.authenticate("jwt", { session: false }),
-        controller.getAllPropostaAircenter)
+        controller.getAllPropostaAircenter
+    )
+    .get('/propostas-aircenter-page/:id',
+        controller.getPaginatedPropostaAircenter
+    )
     .get('/propostas-airpress/:id',
         passport.authenticate("jwt", { session: false }),
-        controller.getPropostaAirPressById)
+        controller.getPropostaAirPressById
+    )
     .get('/propostas-aircenter/:id',
         passport.authenticate("jwt", { session: false }),
-        controller.getPropostaAirCenterById)
+        controller.getPropostaAirCenterById
+    )
     .delete('/propostas-airpress-delete/:id',
         passport.authenticate("jwt", { session: false }),
-        controller.deletePropostaAirpress)
+        controller.deletePropostaAirpress
+    )
     .delete('/propostas-aircenter-delete/:id',
         passport.authenticate("jwt", { session: false }),
-        controller.deletePropostaAircenter)
+        controller.deletePropostaAircenter
+    )
     .post('/propostas-airpress-save',
         passport.authenticate("jwt", { session: false }),
-        controller.addPropostaAirpress)
+        controller.addPropostaAirpress
+    )
     .post('/propostas-aircenter-save',
         passport.authenticate("jwt", { session: false }),
-        controller.addPropostaAircenter)
+        controller.addPropostaAircenter
+    )
     .post('/test-response',
         passport.authenticate("jwt", { session: false }),
         controller.getAllPropostaForResponseTest)
