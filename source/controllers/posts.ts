@@ -133,20 +133,26 @@ const getAllPropostaAirpress = async (req: Request, res: Response, next: NextFun
     return res.status(200).send(propostas)
 };
 
-const PAGE_SIZE = 30;
+const PAGE_SIZE = 25;
 const getPaginatedPropostaAirpress = async (req: Request, res: Response) => {
     let page = req.params.id;
     console.log(page)
 
     const pageNumber = parseInt(page as string) || 1 //default 1
-    const skipDocuments = (pageNumber -1)* PAGE_SIZE;
+    const skipDocuments = (pageNumber - 1) * PAGE_SIZE;
 
-    try{
-        const propostas = await airpressModel.propostaAirpress.find().skip(skipDocuments).limit(PAGE_SIZE).populate('user').exec();
+    try {
+        const propostas = await airpressModel.propostaAirpress
+            .find()
+            .sort({ propostaId: -1 })
+            .skip(skipDocuments)
+            .limit(PAGE_SIZE)
+            .populate('user')
+            .exec();
 
         const totalDocuments = await airpressModel.propostaAirpress.countDocuments();
 
-        return res.status(200).send({propostas, totalDocuments})
+        return res.status(200).send({ propostas, totalDocuments })
     } catch (error) {
         return res.status(500).send(error)
     }
@@ -156,14 +162,20 @@ const getPaginatedPropostaAircenter = async (req: Request, res: Response) => {
     let page = req.params.id;
     console.log(page)
     const pageNumber = parseInt(page as string) || 1 //default 1
-    const skipDocuments = (pageNumber -1)* PAGE_SIZE;
+    const skipDocuments = (pageNumber - 1) * PAGE_SIZE;
 
-    try{
-        const propostas = await aircenterModel.propostaAircenter.find().skip(skipDocuments).limit(PAGE_SIZE).populate('user').exec();
+    try {
+        const propostas = await aircenterModel.propostaAircenter
+            .find()
+            .sort({ propostaId: -1 })
+            .skip(skipDocuments)
+            .limit(PAGE_SIZE)
+            .populate('user')
+            .exec();
 
         const totalDocuments = await aircenterModel.propostaAircenter.countDocuments();
 
-        return res.status(200).send({propostas, totalDocuments})
+        return res.status(200).send({ propostas, totalDocuments })
     } catch (error) {
         return res.status(500).send(error)
     }
@@ -175,7 +187,7 @@ const getAllPropostaAircenter = async (req: Request, res: Response, next: NextFu
     return res.status(200).send(propostas)
 };
 
-const getAllPropostaForResponseTest =async (req: Request, res: Response) => {
+const getAllPropostaForResponseTest = async (req: Request, res: Response) => {
     let result: Array<Proposta> = await aircenterModel.propostaAircenter.find().populate('user');
     return res.status
 }
@@ -247,14 +259,14 @@ const updatePropostaAircenter = async (req: Request, res: Response, next: NextFu
 
 // deleting a post
 const deletePropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
-     // get the post id from req.params
-     let id: string = req.params.id;
-     // delete the post
-     let response: Proposta | null = await airpressModel.propostaAirpress.findByIdAndDelete(id)
-     // return response
-     return res.status(200).json({
-         message: 'Proposta airpress deletada com sucesso'
-     });
+    // get the post id from req.params
+    let id: string = req.params.id;
+    // delete the post
+    let response: Proposta | null = await airpressModel.propostaAirpress.findByIdAndDelete(id)
+    // return response
+    return res.status(200).json({
+        message: 'Proposta airpress deletada com sucesso'
+    });
 };
 const deletePropostaAircenter = async (req: Request, res: Response, next: NextFunction) => {
     // get the post id from req.params
