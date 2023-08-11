@@ -108,6 +108,30 @@ const getUserById = async (req: Request, res: Response, next: NextFunction) => {
     let usuario: User | null = result;
     return res.status(200).send(usuario);
 };
+
+const updateUser = async (req: Request, res: Response) => {
+    console.log("controller")
+    try {
+        const id: string | number = req.params.id;
+        const content: Proposta = req.body;
+
+        const updatedUser: Proposta | null = await user.findByIdAndUpdate(
+            id,
+            content,
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'Proposta not found' });
+        }
+
+        return res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error('Error updating proposta Airpress:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+
+}
 //Sobre propostas
 const addPropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -136,7 +160,6 @@ const getAllPropostaAirpress = async (req: Request, res: Response, next: NextFun
 const PAGE_SIZE = 25;
 const getPaginatedPropostaAirpress = async (req: Request, res: Response) => {
     let page = req.params.id;
-    console.log(page)
 
     const pageNumber = parseInt(page as string) || 1 //default 1
     const skipDocuments = (pageNumber - 1) * PAGE_SIZE;
@@ -160,7 +183,6 @@ const getPaginatedPropostaAirpress = async (req: Request, res: Response) => {
 
 const getPaginatedPropostaAircenter = async (req: Request, res: Response) => {
     let page = req.params.id;
-    console.log(page)
     const pageNumber = parseInt(page as string) || 1 //default 1
     const skipDocuments = (pageNumber - 1) * PAGE_SIZE;
 
@@ -292,6 +314,7 @@ export default {
     createUser,
     login,
     getUserById,
+    updateUser,
     getAllPropostaAirpress,
     getPaginatedPropostaAirpress,
     getPaginatedPropostaAircenter,

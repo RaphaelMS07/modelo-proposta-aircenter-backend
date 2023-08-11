@@ -7,12 +7,18 @@ const router = express.Router();
 router
     .put('/proposta-airpress/:id',
         passport.authenticate("jwt", { session: false }),
-        controller.updatePropostaAirpress)
+        controller.updatePropostaAirpress
+    )
     .put('/proposta-aircenter/:id',
         passport.authenticate("jwt", { session: false }),
-        controller.updatePropostaAircenter)
+        controller.updatePropostaAircenter
+    )
+    .put('/update-user/:id',
+        controller.updateUser
+    )
     .post('/save-user',
-        controller.createUser)
+        controller.createUser
+    )
     .post('/login',
         passport.authenticate("local", { session: false }),
         (req: any, res: any) => {
@@ -43,7 +49,7 @@ router
     .get('/propostas-airpress-page/:id',
         controller.getPaginatedPropostaAirpress
     )
-    .get('/propostas-aircenter',
+    .get('/propostas-aircenter', 
         passport.authenticate("jwt", { session: false }),
         controller.getAllPropostaAircenter
     )
