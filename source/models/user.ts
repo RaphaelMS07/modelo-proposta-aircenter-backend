@@ -9,7 +9,8 @@ export interface User {
     email2: string,
     telefone1: string,
     telefone2: string,
-    password: string
+    password: string,
+    level: number //0 - dev, 1 - admin, 2 - comum proposta, 3 - comum metrologia
 }
 
 const userSchema = new mongoose.Schema<User>({
@@ -21,7 +22,8 @@ const userSchema = new mongoose.Schema<User>({
     email2: {type: String},
     telefone1: {type: String},
     telefone2: {type: String},
-    password: {type: String}
+    password: {type: String},
+    level: {type: Number, default: 2}
 })
  
 userSchema.plugin(passportLocalMongoose)

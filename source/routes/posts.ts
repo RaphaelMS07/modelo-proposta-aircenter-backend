@@ -33,6 +33,7 @@ router
                     telefone1: req.user.telefone1,
                     email: req.user.email,
                     funcao: req.user.funcao,
+                    level: req.user.level
 
                 }),
                 status: "You are successfully logged in",
