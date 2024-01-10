@@ -2,6 +2,7 @@ import express from 'express';
 import controller from '../controllers/posts';
 import passport from 'passport';
 import { getToken } from '../Security/auth';
+import { authenticate } from 'passport';
 const router = express.Router();
 
 router
@@ -50,7 +51,7 @@ router
     .get('/propostas-airpress-page/:id',
         controller.getPaginatedPropostaAirpress
     )
-    .get('/propostas-aircenter', 
+    .get('/propostas-aircenter',
         passport.authenticate("jwt", { session: false }),
         controller.getAllPropostaAircenter
     )
@@ -64,6 +65,10 @@ router
     .get('/propostas-aircenter/:id',
         passport.authenticate("jwt", { session: false }),
         controller.getPropostaAirCenterById
+    )
+    .get('nr13/:id',
+        // passport.authenticate("jwt", { session: false }),
+        controller.getNr13ById
     )
     .delete('/propostas-airpress-delete/:id',
         passport.authenticate("jwt", { session: false }),
@@ -84,6 +89,10 @@ router
     .post('/test-response',
         controller.getAllPropostaForResponseTest
     )
-// .post('/save-counter', controller.saveCounter)
+    .post('/nr13-save',
+        // passport.authenticate('jwt', {session: false}),
+        controller.addNr13
+    )
+    .post('/save-counter', controller.saveCounter)
 
 export = router; 

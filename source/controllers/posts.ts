@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import airpressModel from '../models/propostaAirpress';
 import aircenterModel from '../models/propostaAircenter';
+import nr13Model from '../models/nr13'
 import user, { User } from '../models/user';
 import passport from 'passport';
 import { getToken } from '../Security/auth';
@@ -43,6 +44,33 @@ interface Proposta {
             valorTotal: number;
         }
     ]
+}
+
+interface Nr {
+    id: string;
+    empresa: string;
+    cnpj: string;
+    endereco: string;
+    tipo: string;
+    modelo: string;
+    anoFabricacao: string;
+    numSerie: string;
+    codProjeto: string;
+    anoEdicao: string;
+    pressaoTeste: string;
+    PressaoTrabalho: string;
+    exameVisual: boolean;
+    ultrassom: boolean;
+    espessuraChapa: string;
+    hidrostaticoPTH: string;
+    fotoEquipamento: string;
+    fotoBombaEmTeste: string;
+    resultadoTeste: boolean;
+    numCertNanometro: string;
+    numCertValvulaSeguimento: string;
+    numCertPressostato: string;
+    numCertValulaPiloto: string;
+
 }
 
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
@@ -151,6 +179,16 @@ const addPropostaAircenter = async (req: Request, res: Response, next: NextFunct
     );
 }
 
+const addNr13 = async (req: Request, res: Response) => {
+    
+    const nr13Salvo = await new nr13Model.nr13(req.body).save();
+
+    return res.status(201).json(
+        `nr13-${nr13Salvo._id}`
+    )
+    
+}
+
 const getAllPropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
     let result: Array<Proposta> = await airpressModel.propostaAirpress.find().populate('user');
     let propostas: Array<Proposta> = result;
@@ -233,6 +271,13 @@ const getPropostaAirCenterById = async (req: Request, res: Response, next: NextF
     return res.status(200).send(proposta);
 };
 
+const getNr13ById = async (req: Request, res: Response) => {
+    let id: string = req.params.id;
+    let result: Nr | null = await nr13Model.nr13.findById(id).populate("user");
+    let nr13: Nr | null = result;
+    return res.status(200).send(nr13)
+}
+
 // updating a post
 const updatePropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -303,8 +348,9 @@ const deletePropostaAircenter = async (req: Request, res: Response, next: NextFu
 
 //usado apenas 1 vez
 const saveCounter = async (req: Request, res: Response, next: NextFunction) => {
-    new aircenterModel.aircenterCounter(req.body).save();
-    new airpressModel.airpressCounter(req.body).save();
+    // new aircenterModel.aircenterCounter(req.body).save();
+    // new airpressModel.airpressCounter(req.body).save();
+    new nr13Model.nr13Counter(req.body).save();
     return res.status(200).json({
         messege: "Contador salvo com sucesso!"
     })
@@ -322,11 +368,13 @@ export default {
     getAllPropostaForResponseTest,
     getPropostaAirPressById,
     getPropostaAirCenterById,
+    getNr13ById,
     updatePropostaAirpress,
     updatePropostaAircenter,
     deletePropostaAirpress,
     deletePropostaAircenter,
     addPropostaAirpress,
     addPropostaAircenter,
+    addNr13,
     saveCounter
 };
