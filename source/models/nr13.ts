@@ -31,7 +31,7 @@ interface nr {
     hidrostaticoPTH: string;
     imgFileEquipamento: string;
     imgFileBombaTeste: string;
-    resultadoTeste: boolean;
+    resultadoTeste: string;
     numCertNanometro: string; 
     numCertValvulaSeguimento: string;
     numCertPressostato: string;
@@ -67,7 +67,7 @@ const nr13Schema = new mongoose.Schema<nr>({
     hidrostaticoPTH: { type: String },
     imgFileEquipamento: { type: String },
     imgFileBombaTeste: { type: String },
-    resultadoTeste: { type: Boolean },
+    resultadoTeste: { type: String },
     numCertNanometro: { type: String },
     numCertValvulaSeguimento: { type: String },
     numCertPressostato: { type: String },

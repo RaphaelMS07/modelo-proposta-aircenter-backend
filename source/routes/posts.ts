@@ -67,7 +67,7 @@ router
         passport.authenticate("jwt", { session: false }),
         controller.getPropostaAirCenterById
     )
-    .get('nr13/:id',
+    .get('/nr13/:id',
         passport.authenticate("jwt", { session: false }),
         controller.getNr13ById
     )

@@ -69,7 +69,7 @@ interface Nr {
     hidrostaticoPTH: string;
     imgFileEquipamento: string;
     imgFileBombaTeste: string;
-    resultadoTeste: boolean;
+    resultadoTeste: String;
     numCertNanometro: string;
     numCertValvulaSeguimento: string;
     numCertPressostato: string;
@@ -188,7 +188,7 @@ const addNr13 = async (req: Request, res: Response) => {
     const nr13Salvo = await new nr13Model.nr13(req.body).save();
 
     return res.status(201).json(
-        `nr13-${nr13Salvo._id}`
+        `${nr13Salvo._id}`
     )
     
 }
