@@ -18,6 +18,7 @@ router
         controller.updateUser
     )
     .post('/save-user',
+        passport.authenticate("local", { session: false }),
         controller.createUser
     )
     .post('/login',
@@ -67,7 +68,7 @@ router
         controller.getPropostaAirCenterById
     )
     .get('nr13/:id',
-        // passport.authenticate("jwt", { session: false }),
+        passport.authenticate("jwt", { session: false }),
         controller.getNr13ById
     )
     .delete('/propostas-airpress-delete/:id',
@@ -90,7 +91,7 @@ router
         controller.getAllPropostaForResponseTest
     )
     .post('/nr13-save',
-        // passport.authenticate('jwt', {session: false}),
+        passport.authenticate('jwt', { session: false }),
         controller.addNr13
     )
     .post('/save-counter', controller.saveCounter)

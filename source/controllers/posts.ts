@@ -48,10 +48,14 @@ interface Proposta {
 
 interface Nr {
     id: string;
-    empresa: string;
+    nrId: number;
+    user: User;
+    nome: string;
     cnpj: string;
     endereco: string;
-    tipo: string;
+    reservatorioCheck: boolean;
+    redeCheck: boolean;
+    caldeiraCheck: boolean;
     modelo: string;
     anoFabricacao: string;
     numSerie: string;
@@ -59,12 +63,12 @@ interface Nr {
     anoEdicao: string;
     pressaoTeste: string;
     PressaoTrabalho: string;
-    exameVisual: boolean;
-    ultrassom: boolean;
+    exameVisual: string;
+    ultrassomCheck: boolean;
     espessuraChapa: string;
     hidrostaticoPTH: string;
-    fotoEquipamento: string;
-    fotoBombaEmTeste: string;
+    imgFileEquipamento: string;
+    imgFileBombaTeste: string;
     resultadoTeste: boolean;
     numCertNanometro: string;
     numCertValvulaSeguimento: string;

@@ -12,10 +12,12 @@ interface nr {
     id: string;
     nrId: number;
     user: User;
-    empresa: string;
+    nome: string;
     cnpj: string;
     endereco: string;
-    tipo: string;
+    reservatorioCheck: boolean;
+    redeCheck: boolean;
+    caldeiraCheck: boolean;
     modelo: string;
     anoFabricacao: string;
     numSerie: string;
@@ -23,14 +25,14 @@ interface nr {
     anoEdicao: string;
     pressaoTeste: string;
     PressaoTrabalho: string;
-    exameVisual: boolean;
-    ultrassom: boolean;
+    exameVisual: string;
+    ultrassomCheck: boolean;
     espessuraChapa: string;
     hidrostaticoPTH: string;
-    fotoEquipamento: string;
-    fotoBombaEmTeste: string;
+    imgFileEquipamento: string;
+    imgFileBombaTeste: string;
     resultadoTeste: boolean;
-    numCertNanometro: string;
+    numCertNanometro: string; 
     numCertValvulaSeguimento: string;
     numCertPressostato: string;
     numCertValulaPiloto: string;
@@ -46,10 +48,12 @@ const nr13Schema = new mongoose.Schema<nr>({
     id: { type: String },
     nrId: {type: Number},
     user: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: false },
-    empresa: { type: String },
+    nome: { type: String },
     cnpj: { type: String },
     endereco: { type: String },
-    tipo: { type: String },
+    reservatorioCheck: { type: Boolean },
+    redeCheck: {type: Boolean},
+    caldeiraCheck: {type: Boolean},
     modelo: { type: String },
     anoFabricacao: { type: String },
     numSerie: { type: String },
@@ -57,12 +61,12 @@ const nr13Schema = new mongoose.Schema<nr>({
     anoEdicao: { type: String },
     pressaoTeste: { type: String },
     PressaoTrabalho: { type: String },
-    exameVisual: { type: Boolean },
-    ultrassom: { type: Boolean },
+    exameVisual: { type: String },
+    ultrassomCheck: { type: Boolean },
     espessuraChapa: { type: String },
     hidrostaticoPTH: { type: String },
-    fotoEquipamento: { type: String },
-    fotoBombaEmTeste: { type: String },
+    imgFileEquipamento: { type: String },
+    imgFileBombaTeste: { type: String },
     resultadoTeste: { type: Boolean },
     numCertNanometro: { type: String },
     numCertValvulaSeguimento: { type: String },
