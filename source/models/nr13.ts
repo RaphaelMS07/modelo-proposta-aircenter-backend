@@ -15,6 +15,9 @@ interface nr {
     nome: string;
     cnpj: string;
     endereco: string;
+    telefone: string;
+    email: string
+    dataEmissao: string;
     reservatorioCheck: boolean;
     redeCheck: boolean;
     caldeiraCheck: boolean;
@@ -30,7 +33,9 @@ interface nr {
     espessuraChapa: string;
     hidrostaticoPTH: string;
     imgFileEquipamento: string;
+    imgBinaryEquipamento: string;
     imgFileBombaTeste: string;
+    imgBinaryBombaTeste: string;
     resultadoTeste: string;
     numCertNanometro: string; 
     numCertValvulaSeguimento: string;
@@ -51,6 +56,9 @@ const nr13Schema = new mongoose.Schema<nr>({
     nome: { type: String },
     cnpj: { type: String },
     endereco: { type: String },
+    telefone: {type: String},
+    email: {type: String},
+    dataEmissao: {type: String, default : new Date().getTime().toString()},
     reservatorioCheck: { type: Boolean },
     redeCheck: {type: Boolean},
     caldeiraCheck: {type: Boolean},
@@ -66,7 +74,9 @@ const nr13Schema = new mongoose.Schema<nr>({
     espessuraChapa: { type: String },
     hidrostaticoPTH: { type: String },
     imgFileEquipamento: { type: String },
+    imgBinaryEquipamento: {type: String},
     imgFileBombaTeste: { type: String },
+    imgBinaryBombaTeste: {type: String},
     resultadoTeste: { type: String },
     numCertNanometro: { type: String },
     numCertValvulaSeguimento: { type: String },

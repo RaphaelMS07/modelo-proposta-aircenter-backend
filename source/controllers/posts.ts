@@ -53,6 +53,9 @@ interface Nr {
     nome: string;
     cnpj: string;
     endereco: string;
+    telefone: string;
+    dataEmissao: string;
+    email: string;
     reservatorioCheck: boolean;
     redeCheck: boolean;
     caldeiraCheck: boolean;

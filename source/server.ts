@@ -48,15 +48,18 @@ const router: Express = express();
 /** Logging */
 router.use(morgan('dev'));
 /** Parse the request */
-router.use(express.urlencoded({ extended: false }));
+// router.use(express.urlencoded({ extended: false }));
+router.use(express.urlencoded({limit: '20mb'}));
 /** Takes care of JSON data */
-router.use(express.json());
+// router.use(express.json());
+router.use(express.json({limit: '20mb'}));
 // router.use(cors)
 router.use(cors())
 
 router.use('/', routes);
 
 router.use(passport.initialize())
+
 
 /** Error handling */
 router.use((req, res, next) => {
