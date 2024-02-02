@@ -71,6 +71,10 @@ router
         passport.authenticate("jwt", { session: false }),
         controller.getNr13ById
     )
+    .get('/nr13-page/:id',
+        passport.authenticate("jwt", { session: false }),
+        controller.getPaginatedNr13
+    )
     .delete('/propostas-airpress-delete/:id',
         passport.authenticate("jwt", { session: false }),
         controller.deletePropostaAirpress

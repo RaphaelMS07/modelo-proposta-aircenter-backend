@@ -285,6 +285,30 @@ const getNr13ById = async (req: Request, res: Response) => {
     return res.status(200).send(nr13)
 }
 
+const getPaginatedNr13 = async(req: Request, res: Response) => {
+    let page = req.params.id;
+    const pageNumber = parseInt(page as string) || 1
+    const skipDocuments = (pageNumber -1) * PAGE_SIZE;
+
+    try {
+        const nr13s = await nr13Model.nr13
+        .find()
+        .sort()
+        .skip(skipDocuments)
+        .limit(PAGE_SIZE)
+        .populate('user')
+        .exec();
+
+        const totalDocuments = await nr13Model.nr13.countDocuments();
+
+        return res.status(200).send({nr13s, totalDocuments})
+    } catch (error) {
+        return res.status(500).send(error)
+    }
+
+}
+
+
 // updating a post
 const updatePropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -376,6 +400,7 @@ export default {
     getPropostaAirPressById,
     getPropostaAirCenterById,
     getNr13ById,
+    getPaginatedNr13,
     updatePropostaAirpress,
     updatePropostaAircenter,
     deletePropostaAirpress,
