@@ -14,9 +14,15 @@ router
         passport.authenticate("jwt", { session: false }),
         controller.updatePropostaAircenter
     )
+    .put('/nr13/:id',
+        passport.authenticate("jwt", { session: false }),
+        controller.updateNr13
+    )
     .put('/update-user/:id',
+        passport.authenticate("jwt", { session: false }),
         controller.updateUser
     )
+
     .post('/save-user',
         passport.authenticate("local", { session: false }),
         controller.createUser
@@ -30,7 +36,7 @@ router
                 success: true,
                 token: getToken({
                     _id: req.user._id,
-                    username: req.user.username,
+                    username: req.user.username, 
                     nome: req.user.nome,
                     telefone1: req.user.telefone1,
                     email: req.user.email,
@@ -82,6 +88,10 @@ router
     .delete('/propostas-aircenter-delete/:id',
         passport.authenticate("jwt", { session: false }),
         controller.deletePropostaAircenter
+    )
+    .delete('/nr13-delete/:id',
+        passport.authenticate("jwt", { session: false }),
+        controller.deleteNr13
     )
     .post('/propostas-airpress-save',
         passport.authenticate("jwt", { session: false }),

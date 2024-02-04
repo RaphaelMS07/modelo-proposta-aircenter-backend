@@ -354,6 +354,28 @@ const updatePropostaAircenter = async (req: Request, res: Response, next: NextFu
     }
 };
 
+const updateNr13 = async (req: Request, res: Response) => {
+    try{
+        const id: string = req.params.id;
+        const content: Proposta = req.body;
+
+        const updatedNr13: Nr | null = await nr13Model.nr13.findByIdAndUpdate(
+            id,
+            content,
+            {new: true}
+        );
+
+        if (!updatedNr13) {
+            return res.status(404).json({message: 'NR13 not found'})
+        }
+
+        return res.status(200).json(updateNr13)
+    }
+    catch(error) {
+        console.error('Error updating NR13', error);
+        return res.status(500).json({message: 'Internal server error'})
+    }
+}
 
 // deleting a post
 const deletePropostaAirpress = async (req: Request, res: Response, next: NextFunction) => {
@@ -376,6 +398,14 @@ const deletePropostaAircenter = async (req: Request, res: Response, next: NextFu
         message: 'Proposta aircenter deletada com sucesso'
     });
 };
+
+const deleteNr13 = async (req: Request, res: Response) => {
+    let id: string = req.params.id;
+    let response: Proposta | null = await nr13Model.nr13.findByIdAndDelete(id)
+    return res.status(200).json({
+        messege: 'NR13 deletado com sucesso'
+    })
+}
 
 //usado apenas 1 vez
 const saveCounter = async (req: Request, res: Response, next: NextFunction) => {
@@ -403,8 +433,10 @@ export default {
     getPaginatedNr13,
     updatePropostaAirpress,
     updatePropostaAircenter,
+    updateNr13,
     deletePropostaAirpress,
     deletePropostaAircenter,
+    deleteNr13,
     addPropostaAirpress,
     addPropostaAircenter,
     addNr13,
