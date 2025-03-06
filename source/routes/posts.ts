@@ -24,7 +24,7 @@ router
     )
 
     .post('/save-user',
-        passport.authenticate("local", { session: false }),
+        passport.authenticate("jwt", { session: false }),
         controller.createUser
     )
     .post('/login',
